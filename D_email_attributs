@@ -1,4 +1,4 @@
-WITH AAA as (
+WITH full_label_list as (
 
 SELECT 
 cial_op_diff_log_contact_date,cial_op_diff_log_msg_label,campaign_id,campaign_name, 
@@ -13,7 +13,7 @@ cial_op_diff_log_contact_date,
 cial_op_diff_log_msg_label,
 campaign_id,campaign_name, 
 MAX(cial_op_diff_log_contact_date) as last_log_available
-FROM AAA
+FROM full_label_list
 WHERE flag = 1
 GROUP BY 1,2,3,4
 )
