@@ -20,15 +20,18 @@ WITH
     trim(email_tracking.label) as label,
     email_tracking.CountryCustomerId,
     email_tracking.subscriberkey,
-    subject,
-    IF(CONTAINS_SUBSTR(subject, "[TEST"), "il y a test", "il n'y a pas test") as colonne_test
   FROM
     `auchan-rou-prod.raw_salesforce_customeractivation_sec.email_tracking_log` email_tracking
   WHERE true 
   --hors BAT
   AND COALESCE(countrycustomerid,"") NOT LIKE "%ROU%"
   --hors test
-    AND LOWER(COALESCE(subject,"")) NOT LIKE "%template%" )
+    AND (( IF(CONTAINS_SUBSTR(subject, "[TEST"), "test", "no test") = "no test" )) -- On retire les [Test] et [Test....] (la fonction CONTAINS_SUBSTR n'est pas sensible à la casse)
+    AND (( IF(CONTAINS_SUBSTR(subject, "[TEMPLATE"), "test", "no test") = "no test" )) -- On retire les [Template] et [Template....] (la fonction CONTAINS_SUBSTR n'est pas sensible à la casse)
+    OR ( IF("Template" in UNNEST(SPLIT(REGEXP_REPLACE((subject), r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test" ) -- On retire les subjects contenant "Template" 
+    OR ( IF("template" in UNNEST(SPLIT(REGEXP_REPLACE((subject), r'[^a-zA-Z]', ' '), " ")), "test", "no test")= "no test") -- On retire les subjects contenant "template"
+    OR (IF("TEMPLATE" in UNNEST(SPLIT(REGEXP_REPLACE((subject), r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test") -- On retire les subjects contenat "TEMPLATE"
+)
 
   SELECT
   distinct
@@ -43,10 +46,7 @@ WITH
     dl.messageid as message_id,
      SUBSTR(Address, strpos(Address, '@')+1) AS domain,
     COALESCE(label,"no label") AS cial_op_diff_log_msg_label,
-    subject,
-    colonne_test,
     CONCAT("RO", "_SF_", CountryCustomerId) AS person_unique_code,
     subscriberkey
   FROM
     dl_mapped dl
-Where colonne_test = "il n'y a pas test"
