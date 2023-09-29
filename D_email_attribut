@@ -1,0 +1,26 @@
+WITH AAA as (
+
+SELECT 
+cial_op_diff_log_contact_date,cial_op_diff_log_msg_label,campaign_id,campaign_name, 
+row_number()
+      OVER (PARTITION BY cial_op_diff_log_msg_label, campaign_id,campaign_name ORDER BY cial_op_diff_log_contact_date DESC) as flag
+FROM `ard-corp-sc-sandbox.Valentin_ph_test.d_email_attribut` 
+),
+
+last_label_campaign as (
+SELECT 
+cial_op_diff_log_contact_date,
+cial_op_diff_log_msg_label,
+campaign_id,campaign_name, 
+MAX(cial_op_diff_log_contact_date) as last_log_available
+FROM AAA
+WHERE flag = 1
+GROUP BY 1,2,3,4
+)
+
+SELECT 
+cial_op_diff_log_contact_date,
+cial_op_diff_log_msg_label,
+campaign_id,campaign_name, 
+from last_label_campaign 
+
