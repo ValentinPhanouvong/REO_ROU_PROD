@@ -11,8 +11,7 @@ a message id can have only one campaign and one message frequency and this campa
 
 */
 --------------
-
-
+/*1er bloc : Avoir les informations de routage des mails (min et max) par messageID, contact_date */
 with 
 
 email_diff_routage as (
