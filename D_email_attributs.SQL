@@ -1,5 +1,5 @@
 -- d_email_attributs
--- Create or replace table `ard-corp-sc-sandbox.CPA_ROU_TB_TEST.d_email_attributs` as
+Create or replace table `ard-corp-sc-sandbox.Valentin_ph_test.test_d_email_attribut_rou` as
 
 /* 
 
@@ -137,15 +137,14 @@ campaign_clean.cmp_name AS campaign_name
 from campaign_message 
 left join  campaign_clean
 using(cmp_id) 
-),
+)
 
 /*10ème bloc : A partir de la table last_label_detection_clean, on apporte les informations de la table campaign_message_full puis les informations de la table de routage en ajoutant les condition pour classifier en one-shot/trigger les différents messageID */
-all_label_list as (
 Select 
 Distinct
 message_full.message_id,
 message_full.cial_op_diff_log_contact_date,
-message_full.cial_op_diff_log_msg_label,
+CONCAT (message_full.cial_op_diff_log_msg_label,'_',message_full.message_ID) as cial_op_diff_log_msg_label,
 campaign_message_full.msg_frequency,
 campaign_message_full.msg_content_type,
 email_diff_routage.start_date_routage,
@@ -165,37 +164,3 @@ on message_full.message_id = campaign_message_full.message_id
 left join email_diff_routage as email_diff_routage
 on email_diff_routage.message_id = message_full.message_id 
 and email_diff_routage.cial_op_diff_log_contact_date = message_full.cial_op_diff_log_contact_date
-),
-
-
-Date_max as (
-SELECT 
-message_id,
-cial_op_diff_log_contact_date,
-cial_op_diff_log_msg_label,
-msg_frequency,
-msg_content_type,
-start_date_routage,
-end_date_routage,
-email_type,
-campaign_id,
-campaign_name,
-row_number()
-      OVER (PARTITION BY cial_op_diff_log_msg_label ORDER BY cial_op_diff_log_contact_date DESC) as flag
-FROM all_label_list
-)
-
-select 
-message_id,
-cial_op_diff_log_contact_date,
-cial_op_diff_log_msg_label,
-msg_frequency,
-msg_content_type,
-start_date_routage,
-end_date_routage,
-email_type,
-campaign_id,
-campaign_name,
-flag,
-from date_max
-WHERE flag = 1
