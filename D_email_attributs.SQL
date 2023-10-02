@@ -183,7 +183,6 @@ campaign_name,
 row_number()
       OVER (PARTITION BY cial_op_diff_log_msg_label ORDER BY cial_op_diff_log_contact_date DESC) as flag
 FROM all_label_list
---WHERE cial_op_diff_log_msg_label = "032_Trigger_first_offer_different_SL"
 )
 
 select 
