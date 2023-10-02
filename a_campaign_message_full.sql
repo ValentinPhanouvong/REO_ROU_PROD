@@ -42,8 +42,8 @@ SELECT DISTINCT
   campaign_message.msg_frequency,
   campaign_message.msg_content_type,
   campaign_message.cmp_id,
-  coalesce(campaign_clean.cmp_code, 'no cmp_code') AS campagneid,
-  coalesce(campaign_clean.cmp_name, 'no_cmp_name') AS campagnename
+  coalesce(campaign_clean.cmp_code, 'no cmp_code') AS campaign_id,
+  coalesce(campaign_clean.cmp_name, 'no_cmp_name') AS campaign_name
 FROM campaign_message
 LEFT JOIN campaign_clean
   USING (cmp_id)
