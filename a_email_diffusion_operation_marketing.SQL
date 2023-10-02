@@ -34,7 +34,12 @@ WITH
   AND COALESCE(countrycustomerid,"") NOT LIKE "%ROU%"
   --hors test
     AND (( IF(CONTAINS_SUBSTR(subject, "[TEST"), "test", "no test") = "no test" )) -- On retire les [Test] et [Test....] (la fonction CONTAINS_SUBSTR n'est pas sensible à la casse)
-       AND (( IF(CONTAINS_SUBSTR(subject, "[TEMPLATE"), "test", "no test") = "no test" )) -- On retire les [Template] et [Template....] (la fonction CONTAINS_SUBSTR n'est pas sensible à la casse)
+    OR ( IF("Test" in UNNEST(SPLIT(REGEXP_REPLACE((subject), r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test" ) -- On retire les subjects contenant "Test" 
+    OR ( IF("test" in UNNEST(SPLIT(REGEXP_REPLACE((subject), r'[^a-zA-Z]', ' '), " ")), "test", "no test")= "no test") -- On retire les subjects contenant "test"
+    OR (IF("TEST" in UNNEST(SPLIT(REGEXP_REPLACE((subject), r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")
+    OR (IF("TTest" in UNNEST(SPLIT(REGEXP_REPLACE((subject), r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test") -- On retire les subjects contenat "TEST"
+-- we add coalesce here in order to take the raw when the field is null
+    AND (( IF(CONTAINS_SUBSTR(subject, "[TEMPLATE"), "test", "no test") = "no test" )) -- On retire les [Template] et [Template....] (la fonction CONTAINS_SUBSTR n'est pas sensible à la casse)
     OR ( IF("Template" in UNNEST(SPLIT(REGEXP_REPLACE((subject), r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test" ) -- On retire les subjects contenant "Template" 
     OR ( IF("template" in UNNEST(SPLIT(REGEXP_REPLACE((subject), r'[^a-zA-Z]', ' '), " ")), "test", "no test")= "no test") -- On retire les subjects contenant "template"
     OR (IF("TEMPLATE" in UNNEST(SPLIT(REGEXP_REPLACE((subject), r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test") -- On retire les subjects contenat "TEMPLATE"
