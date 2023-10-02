@@ -3,8 +3,8 @@
 
 SELECT DISTINCT
   CONCAT(EXTRACT(MONTH FROM CAST(Diffusion.cial_op_diff_log_contact_date AS date)),"_", EXTRACT(YEAR FROM CAST(Diffusion.cial_op_diff_log_contact_date AS date))) AS DateEnvois,
-  COUNT(DISTINCT CampagneID) as NbCampagne, 
-  COUNT(DISTINCT Message_ID) as NbEmails
+  COUNT(DISTINCT CampagneID) as Nbr_campaign, 
+  COUNT(DISTINCT Message_ID) as Nbr_emails
 FROM 
   `ard-corp-sc-sandbox.CPA_ROU_TB_TEST.a_email_diffusion_operation_marketing` Diffusion
 left join `ard-corp-sc-sandbox.CPA_ROU_TB_TEST.d_email_attributs`
