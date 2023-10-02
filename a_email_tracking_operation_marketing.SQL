@@ -19,7 +19,7 @@ WITH
     email_tracking.jobid, 
     trim(email_tracking.label) as label,
     email_tracking.CountryCustomerId,
-    email_tracking.subscriberkey,
+    email_tracking.subscriberkey
   FROM
     `auchan-rou-prod.raw_salesforce_customeractivation_sec.email_tracking_log` email_tracking
   WHERE true 
