@@ -1,5 +1,4 @@
 -- d_email_attributs
-Create or replace table `ard-corp-sc-sandbox.Valentin_ph_test.test_d_email_attribut_rou` as
 
 /* 
 
@@ -12,9 +11,10 @@ a message id can have only one campaign and one message frequency and this campa
 
 */
 --------------
+
+
 with 
 
-/*1er bloc : Avoir les informations de routage des mails (min et max) par messageID, contact_date */
 email_diff_routage as (
 SELECT  
 message_id, 
@@ -144,7 +144,7 @@ Select
 Distinct
 message_full.message_id,
 message_full.cial_op_diff_log_contact_date,
-CONCAT (message_full.cial_op_diff_log_msg_label,'_',message_full.message_ID) as cial_op_diff_log_msg_label,
+CONCAT (message_full.cial_op_diff_log_msg_label,'(',message_full.message_ID,')') as cial_op_diff_log_msg_label,
 campaign_message_full.msg_frequency,
 campaign_message_full.msg_content_type,
 email_diff_routage.start_date_routage,
