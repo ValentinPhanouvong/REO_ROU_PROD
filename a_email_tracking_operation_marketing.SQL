@@ -22,23 +22,33 @@ WITH
     email_tracking.subscriberkey
   FROM
     `auchan-rou-prod.raw_salesforce_customeractivation_sec.email_tracking_log` email_tracking
-  WHERE true 
-  --hors BAT
-  AND COALESCE(countrycustomerid,"") NOT LIKE "%ROU%"
-  --hors test
-    AND ( IF(CONTAINS_SUBSTR(subject, "[TEST"), "test", "no test") = "no test" ) -- On retire les [Test] et [Test....] (la fonction CONTAINS_SUBSTR n'est pas sensible à la casse)
-    AND ( IF("Test" in UNNEST(SPLIT(REGEXP_REPLACE((subject), r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test" ) -- On retire les subjects contenant "Test" 
-    AND ( IF("test" in UNNEST(SPLIT(REGEXP_REPLACE((subject), r'[^a-zA-Z]', ' '), " ")), "test", "no test")= "no test") -- On retire les subjects contenant "test"
-    AND (IF("TEST" in UNNEST(SPLIT(REGEXP_REPLACE((subject), r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")
-    AND (IF("TTest" in UNNEST(SPLIT(REGEXP_REPLACE((subject), r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test") -- On retire les subjects contenat "TEST"
--- we add coalesce here in order to take the raw when the field is null
-    AND ( IF(CONTAINS_SUBSTR(subject, "[TEMPLATE"), "test", "no test") = "no test" ) -- On retire les [Template] et [Template....] (la fonction CONTAINS_SUBSTR n'est pas sensible à la casse)
-    AND ( IF("Template" in UNNEST(SPLIT(REGEXP_REPLACE((subject), r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test" ) -- On retire les subjects contenant "Template" 
-    AND ( IF("template" in UNNEST(SPLIT(REGEXP_REPLACE((subject), r'[^a-zA-Z]', ' '), " ")), "test", "no test")= "no test") -- On retire les subjects contenant "template"
-    AND (IF("TEMPLATE" in UNNEST(SPLIT(REGEXP_REPLACE((subject), r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test") -- On retire les subjects contenat "TEMPLATE"
-  -- manage temporality
-   -- and tech_date between date_sub(current_date(), interval 7 DAY) and current_date()) -- tech_date = date(eventdate) made by IT when they load the data
+WHERE 1=1 
+  -- Hors BAT
+  AND COALESCE(countrycustomerid, "") NOT LIKE "%ROU%"
+  -- Hors test
+  AND (
+    (
+      subject IN ("💡1+1, 2+1, 3+1 🧐 Nu e un test de matematica, sunt noile oferte ▶️")
+    )
+    OR (
+      (
+        (IF(CONTAINS_SUBSTR(subject, "[TEST"), "test", "no test") = "no test")
+        AND (IF("Test" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")
+        AND (IF("test" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")
+        AND (IF("TEST" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")
+        AND (IF("TTest" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")
+        -- On retire les subjects contenant "TEST"
+        AND (IF(CONTAINS_SUBSTR(subject, "[TEMPLATE"), "test", "no test") = "no test")
+        AND (IF("Template" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")
+        AND (IF("template" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")
+        AND (IF("TEMPLATE" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")
+        -- On retire les subjects contenat "TEMPLATE"
+      )
+      -- manage temporality
+      -- and tech_date between date_sub(current_date(), interval 7 DAY) and current_date()) -- tech_date = date(eventdate) made by IT when they load the data
+    )
   )
+   )
 
   SELECT
   distinct
