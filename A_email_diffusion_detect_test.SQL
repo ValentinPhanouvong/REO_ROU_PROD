@@ -14,8 +14,6 @@ SELECT DISTINCT
   FROM
     `auchan-rou-prod.raw_salesforce_customeractivation_sec.email_send_log` email
   WHERE 1=1 
-  --hors BAT
-  --AND COALESCE(countrycustomerid,"") NOT LIKE "%ROU%"
   --hors test
 AND LOWER(COALESCE(subject,"")) LIKE "%test%"
 OR LOWER(COALESCE(subject,"")) LIKE "%template%"
