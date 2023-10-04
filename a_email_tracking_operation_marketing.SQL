@@ -28,21 +28,20 @@ WHERE 1=1
   -- Hors test
   AND (
     (
-      subject IN ("💡1+1, 2+1, 3+1 🧐 Nu e un test de matematica, sunt noile oferte ▶️")
+      subject IN ("💡1+1, 2+1, 3+1 🧐 Nu e un test de matematica, sunt noile oferte ▶️") -- list of labels that we want to keep
     )
     OR (
       (
-        (IF(CONTAINS_SUBSTR(subject, "[TEST"), "test", "no test") = "no test")
-        AND (IF("Test" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")
-        AND (IF("test" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")
-        AND (IF("TEST" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")
-        AND (IF("TTest" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")
-        -- On retire les subjects contenant "TEST"
-        AND (IF(CONTAINS_SUBSTR(subject, "[TEMPLATE"), "test", "no test") = "no test")
-        AND (IF("Template" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")
-        AND (IF("template" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")
+        (IF(CONTAINS_SUBSTR(subject, "[TEST"), "test", "no test") = "no test") -- we want to delete all the [Test...
+        AND (IF("Test" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")-- we want to delete all the Test
+        AND (IF("test" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")-- we want to delete all the test
+        AND (IF("TEST" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")-- we want to delete all the TEST
+        AND (IF("TTest" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")-- we want to delete all the TTest
+        AND (IF(CONTAINS_SUBSTR(subject, "[TEMPLATE"), "test", "no test") = "no test") -- we want to delete all the [TEMPLATE...
+        AND (IF("Template" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")-- we want to delete all the Template
+        AND (IF("template" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")-- we want to delete all the template
         AND (IF("TEMPLATE" in UNNEST(SPLIT(REGEXP_REPLACE(subject, r'[^a-zA-Z]', ' '), " ")), "test", "no test") = "no test")
-        -- On retire les subjects contenat "TEMPLATE"
+        -- we want to delete all the "TEMPLATE"
       )
       -- manage temporality
       -- and tech_date between date_sub(current_date(), interval 7 DAY) and current_date()) -- tech_date = date(eventdate) made by IT when they load the data
@@ -61,7 +60,7 @@ WHERE 1=1
     CURRENT_DATETIME() AS upd_date,
     "RO" AS ctry_code,
     dl.messageid as message_id,
-     SUBSTR(Address, strpos(Address, '@')+1) AS domain,
+     SUBSTR(Address, strpos(Address, '@')+1) AS email_domain,
     COALESCE(label,"no label") AS cial_op_diff_log_msg_label,
     CONCAT("RO", "_SF_", CountryCustomerId) AS person_unique_code,
     subscriberkey
