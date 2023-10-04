@@ -163,3 +163,4 @@ on message_full.message_id = campaign_message_full.message_id
 left join email_diff_routage as email_diff_routage
 on email_diff_routage.message_id = message_full.message_id 
 and email_diff_routage.cial_op_diff_log_contact_date = message_full.cial_op_diff_log_contact_date
+WHERE message_full.message_id is not null 
