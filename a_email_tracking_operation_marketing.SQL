@@ -60,7 +60,7 @@ WHERE 1=1
     CURRENT_DATETIME() AS upd_date,
     "RO" AS ctry_code,
     dl.messageid as message_id,
-     SUBSTR(Address, strpos(Address, '@')+1) AS email_domain,
+     SUBSTR(Address, strpos(Address, '@')+1) AS domain,
     COALESCE(label,"no label") AS cial_op_diff_log_msg_label,
     CONCAT("RO", "_SF_", CountryCustomerId) AS person_unique_code,
     subscriberkey
