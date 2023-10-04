@@ -36,7 +36,7 @@ WHERE 1=1
   -- Hors test
   AND (
     (
-      subject IN ("💡1+1, 2+1, 3+1 🧐 Nu e un test de matematica, sunt noile oferte ▶️") -- list of labels that we want to keep
+      trim(subject) IN ("💡1+1, 2+1, 3+1 🧐 Nu e un test de matematica, sunt noile oferte ▶️") -- list of labels that we want to keep
     )
     OR (
       (
