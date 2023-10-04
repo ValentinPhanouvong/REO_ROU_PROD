@@ -26,12 +26,12 @@ Each country will have to define its own list of ISPs.
     cial_op_diff_log_msg_fail_type_code,
     subscriberkey as subscriber_key,
     CASE
-      WHEN domain IN ('aol.com') THEN 'AOL'
-      WHEN domain IN ('auchan.ro', 'auchan.com', 'partner.auchan.ro', 'partner.auchan.com','auchan.ro','auchan.pl') THEN 'AUCHAN'
-      WHEN domain IN ('gmail.com','gmail.com.com','gmail.com','googlemail.com','gmail.ro') THEN 'GMAIL'
-      WHEN domain IN ('icloud.com') THEN 'ICLOUD'
-      WHEN domain IN ('hotmail.com','outlook.com','mail.ru','live.com','hotmail.it','hotmail.fr','msn.com','windowslive.com','hotmail.es','hotmail.co.uk','outlook.fr','outlook.it','hotmail.de','outlook.de') THEN 'MICROSOFT'
-      WHEN domain IN ('yahoo.ro','ymail.com','yahoo.co.uk','yahoo.it','yahoo.fr','yahoo.es','yahoo.ca','yahoo.de','rocketmail.com','yahoo.com.au','yahoo.ro','yahoo.ie','yahoo.com.sg','yahoo.co.nz','yahoo.co.in','yahoo.gr','yahoo.in','yahoo.CO.UK','yahoo.com.ph','yahoo.hu','yahoo.com.br','yahoo.com.mx','yahoo.se','yahoo.com.my','yahoo.com.tr','yahoo.com.ar','yahoo.DE') THEN 'YAHOO'
+      WHEN email_domain IN ('aol.com') THEN 'AOL'
+      WHEN email_domain IN ('auchan.ro', 'auchan.com', 'partner.auchan.ro', 'partner.auchan.com','auchan.ro','auchan.pl') THEN 'AUCHAN'
+      WHEN email_domain IN ('gmail.com','gmail.com.com','gmail.com','googlemail.com','gmail.ro') THEN 'GMAIL'
+      WHEN email_domain IN ('icloud.com') THEN 'ICLOUD'
+      WHEN email_domain IN ('hotmail.com','outlook.com','mail.ru','live.com','hotmail.it','hotmail.fr','msn.com','windowslive.com','hotmail.es','hotmail.co.uk','outlook.fr','outlook.it','hotmail.de','outlook.de') THEN 'MICROSOFT'
+      WHEN email_domain IN ('yahoo.ro','ymail.com','yahoo.co.uk','yahoo.it','yahoo.fr','yahoo.es','yahoo.ca','yahoo.de','rocketmail.com','yahoo.com.au','yahoo.ro','yahoo.ie','yahoo.com.sg','yahoo.co.nz','yahoo.co.in','yahoo.gr','yahoo.in','yahoo.CO.UK','yahoo.com.ph','yahoo.hu','yahoo.com.br','yahoo.com.mx','yahoo.se','yahoo.com.my','yahoo.com.tr','yahoo.com.ar','yahoo.DE') THEN 'YAHOO'
       ELSE 'AUTRE'
     END AS fai -- can be improve with a like condiation example : "%orange.%"
   FROM `ard-corp-sc-sandbox.CPA_ROU_TB_TEST.a_email_diffusion_operation_marketing`
@@ -100,12 +100,12 @@ Each country will have to define its own list of ISPs.
     cial_op_tracking_log_url_category_code,
     subscriberkey as subscriber_key,
     CASE
-      WHEN domain IN ('aol.com') THEN 'AOL'
-      WHEN domain IN ('auchan.ro', 'auchan.com', 'partner.auchan.ro', 'partner.auchan.com','auchan.ro','auchan.pl') THEN 'AUCHAN'
-      WHEN domain IN ('gmail.com','gmail.com.com','gmail.com','googlemail.com','gmail.ro') THEN 'GMAIL'
-      WHEN domain IN ('icloud.com') THEN 'ICLOUD'
-      WHEN domain IN ('hotmail.com','outlook.com','mail.ru','live.com','hotmail.it','hotmail.fr','msn.com','windowslive.com','hotmail.es','hotmail.co.uk','outlook.fr','outlook.it','hotmail.de','outlook.de') THEN 'MICROSOFT'
-      WHEN domain IN ('yahoo.ro','ymail.com','yahoo.co.uk','yahoo.it','yahoo.fr','yahoo.es','yahoo.ca','yahoo.de','rocketmail.com','yahoo.com.au','yahoo.ro','yahoo.ie','yahoo.com.sg','yahoo.co.nz','yahoo.co.in','yahoo.gr','yahoo.in','yahoo.CO.UK','yahoo.com.ph','yahoo.hu','yahoo.com.br','yahoo.com.mx','yahoo.se','yahoo.com.my','yahoo.com.tr','yahoo.com.ar','yahoo.DE') THEN 'YAHOO'
+      WHEN email_domain IN ('aol.com') THEN 'AOL'
+      WHEN email_domain IN ('auchan.ro', 'auchan.com', 'partner.auchan.ro', 'partner.auchan.com','auchan.ro','auchan.pl') THEN 'AUCHAN'
+      WHEN email_domain IN ('gmail.com','gmail.com.com','gmail.com','googlemail.com','gmail.ro') THEN 'GMAIL'
+      WHEN email_domain IN ('icloud.com') THEN 'ICLOUD'
+      WHEN email_domain IN ('hotmail.com','outlook.com','mail.ru','live.com','hotmail.it','hotmail.fr','msn.com','windowslive.com','hotmail.es','hotmail.co.uk','outlook.fr','outlook.it','hotmail.de','outlook.de') THEN 'MICROSOFT'
+      WHEN email_domain IN ('yahoo.ro','ymail.com','yahoo.co.uk','yahoo.it','yahoo.fr','yahoo.es','yahoo.ca','yahoo.de','rocketmail.com','yahoo.com.au','yahoo.ro','yahoo.ie','yahoo.com.sg','yahoo.co.nz','yahoo.co.in','yahoo.gr','yahoo.in','yahoo.CO.UK','yahoo.com.ph','yahoo.hu','yahoo.com.br','yahoo.com.mx','yahoo.se','yahoo.com.my','yahoo.com.tr','yahoo.com.ar','yahoo.DE') THEN 'YAHOO'
       ELSE 'AUTRE'
     END AS fai
   FROM `ard-corp-sc-sandbox.CPA_ROU_TB_TEST.a_email_tracking_operation_marketing`
