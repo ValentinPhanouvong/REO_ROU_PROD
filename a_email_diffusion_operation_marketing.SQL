@@ -60,7 +60,7 @@ SELECT
 DISTINCT
   COALESCE(label,"No label") AS cial_op_diff_log_msg_label,
   dl.cial_op_diff_log_channel_type_code AS cial_op_diff_log_channel_type_code,
-  SUBSTR(Address, strpos(Address, '@')+1) AS domain,
+  SUBSTR(Address, strpos(Address, '@')+1) AS email_domain,
   CAST(ContactDate AS DATETIME) AS cial_op_diff_log_contact_date,
   CAST(EventDate AS DATETIME) AS cial_op_diff_log_event_date,
   dl.cial_op_diff_log_msg_status_code AS cial_op_diff_log_msg_status_code,
